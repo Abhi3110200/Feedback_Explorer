@@ -14,11 +14,11 @@ interface Feedback {
 
 const CATEGORIES = [
   { value: "", label: "All Categories" },
-  { value: "bug", label: "Bug" },
-  { value: "feature", label: "Feature" },
-  { value: "enhancement", label: "Enhancement" },
-  { value: "ui", label: "UI" },
-  { value: "ux", label: "UX" },
+  { value: "Bug", label: "Bug" },
+  { value: "Feature", label: "Feature" },
+  { value: "Improvement", label: "Improvement" },
+  { value: "UI", label: "UI" },
+  { value: "UX", label: "UX" },
 ];
 
 const SORT_OPTIONS = [
@@ -26,7 +26,11 @@ const SORT_OPTIONS = [
   { value: "oldest", label: "Oldest First" },
 ];
 
-export default function FeedbackList() {
+interface FeedbackListProps {
+  refreshTrigger?: number;
+}
+
+export default function FeedbackList({ refreshTrigger = 0 }: FeedbackListProps) {
   const [data, setData] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState("newest");
@@ -51,7 +55,7 @@ export default function FeedbackList() {
     }, 300);
     
     return () => clearTimeout(timer);
-  }, [sort, filter, search]);
+  }, [sort, filter, search, refreshTrigger]);
 
   if (loading && data.length === 0) {
     return (

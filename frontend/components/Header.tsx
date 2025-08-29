@@ -2,7 +2,11 @@
 import { useState } from "react";
 import AddFeedbackModal from "./AddFeedbackModal";
 
-export default function Header() {
+interface HeaderProps {
+  onNewFeedback?: () => void;
+}
+
+export default function Header({ onNewFeedback }: HeaderProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -15,13 +19,20 @@ export default function Header() {
           </p>
         </div>
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            onNewFeedback?.();
+          }}
           className="bg-white text-indigo-700 font-medium px-4 py-2 rounded-full shadow hover:bg-gray-100 transition"
         >
           + Add Feedback
         </button>
       </div>
-      <AddFeedbackModal open={open} onClose={() => setOpen(false)} />
+      <AddFeedbackModal 
+        open={open} 
+        onClose={() => setOpen(false)} 
+        onFeedbackAdded={onNewFeedback} 
+      />
     </header>
   );
 }

@@ -6,9 +6,10 @@ import toast from "react-hot-toast";
 interface Props {
   open: boolean;
   onClose: () => void;
+  onFeedbackAdded?: () => void;
 }
 
-export default function AddFeedbackModal({ open, onClose }: Props) {
+export default function AddFeedbackModal({ open, onClose, onFeedbackAdded }: Props) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [category, setCategory] = useState("Bug");
@@ -24,6 +25,7 @@ export default function AddFeedbackModal({ open, onClose }: Props) {
       await createFeedback({ title, description: desc, category });
       toast.success("Feedback submitted!");
       onClose();
+      onFeedbackAdded?.();
     } catch {
       toast.error("Failed to submit feedback.");
     } finally {
@@ -61,11 +63,11 @@ export default function AddFeedbackModal({ open, onClose }: Props) {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="bug">Bug</option>
-            <option value="feature">Feature</option>
-            <option value="enhancement">Enhancement</option>
-            <option value="ui">UI</option>
-            <option value="ux">UX</option>
+            <option value="Bug">Bug</option>
+            <option value="Feature">Feature</option>
+            <option value="Improvement">Improvement</option>
+            <option value="UI">UI</option>
+            <option value="UX">UX</option>
           </select>
         </div>
         <div className="mt-6 flex justify-end gap-3">
